@@ -8,24 +8,24 @@ const router = express.Router()
 router.post("/forgot",async(req,res)=>{
     try {
 const user = await User.findOne({email:req.body.email})
-console.log(user)
-if(user){
-    console.log(user)
+if(user){    
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user:user.email,
-    //   pass: 'your-password'
+      user:'praveenhb0610@gmail.com',
+      pass: 'nllatpwnkdieatgs'
     }
   });
+  const id =  user._id.toString();
+  const resetLink =`http://localhost:3000/reset/${id}`;
   const mailOptions = {
-    from: 'zenclass@gmail.com',
+    from: 'praveenhb0610@gmail.com',
     to: user.email,
-    subject: user.password,
+    subject: 'Reset Password',
     html: `
       <p>Hello,</p>
       <p>You have requested to reset your password. Please click on the following link to reset it:</p>
-      <a href="https://your-app.com/reset-password">Reset Password</a>
+      <a href="${resetLink}">Reset Password</a>
       <p>If you didn't request this, you can safely ignore this email.</p>
       <p>Thank you</p>
     `
@@ -35,8 +35,7 @@ const transporter = nodemailer.createTransport({
       console.log('Error occurred:');
       console.log(error.message);
     } else {
-      console.log('Password reset email sent successfully!');
-      console.log('Response:', info);
+      return res.status(202).json({message:"Password reset email sent successfully!"})
     }
   });
   
@@ -50,4 +49,7 @@ else{
        res.status(500).json({message:"Server issues"}) 
 }
 })
+
+
+
 export const forgotpasswordrouter =router

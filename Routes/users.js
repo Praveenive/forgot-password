@@ -48,6 +48,24 @@ router.post("/login", async(req,res)=>{
     }
 })
 
+router.put("/resetpassword/:id", async(req,res)=>{
+    try {
+           const salt = await bcrypt.genSalt(10);
+         const hashedpassword = await bcrypt.hash(req.body.password,salt)
+        const update = await User.findOneAndUpdate(
+            {_id:req.params.id},{$set:{password:hashedpassword}},{new:true}
+        )
+        console.log(update)
+        if(!update){
+            return res.status(400).json({message:"Kindly enter new Password"})
+        }
+        res.status(200).json({data:update,message:"Updated successfully"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Server error"})
+    }
+})
+
 
 
 export const userRouter = router;
