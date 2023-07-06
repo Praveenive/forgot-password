@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
     }
   });
   const id =  user._id.toString();
-  const resetLink =`https://64a70e3a79bb976a3f85f96d--gentle-swan-3cef79.netlify.app/reset/${id}`;
+  const resetLink =`https://64a7100799de796c35b9df18--ephemeral-squirrel-b2208a.netlify.app/reset/${id}`;
   const mailOptions = {
     from: 'praveenhb0610@gmail.com',
     to: user.email,
